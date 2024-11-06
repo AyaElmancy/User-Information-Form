@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Information</title>
+    <style>
+        .container {
+            margin: 20px;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Enter Your Information</h1>
+        <form id="userForm">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" required><br><br>
+            
+            <label for="birthYear">Birth Year:</label>
+            <input type="number" id="birthYear" name="birthYear" required><br><br>
+            
+            <label for="mobileNumber">Mobile Number:</label>
+            <input type="text" id="mobileNumber" name="mobileNumber" required><br><br>
+            
+            <label for="color">Choose a color:</label>
+            <select id="color" name="color" required>
+                <option value="red">Red</option>
+                <option value="green">Green</option>
+                <option value="blue">Blue</option>
+            </select><br><br>
+            
+            <input type="submit" value="Submit">
+        </form>
+        <div id="message"></div>
+    </div>
+    
+    <script>
+        document.getElementById('userForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const firstName = document.getElementById('firstName').value.trim();
+            const birthYear = parseInt(document.getElementById('birthYear').value, 10);
+            const mobileNumber = document.getElementById('mobileNumber').value.trim();
+            const color = document.getElementById('color').value;
+            
+            const currentYear = new Date().getFullYear();
+            const age = currentYear - birthYear;
+            
+            let errors = '';
+            if (!isNaN(firstName)) {
+                errors += 'First name must be a character.<br>';
+            }
+            if (mobileNumber.length !== 11 || isNaN(mobileNumber)) {
+                errors += 'Mobile number must be an 11-digit number.<br>';
+            }
+            if (birthYear <= 1900 || isNaN(birthYear)) {
+                errors += 'Birth year must be greater than 1900.<br>';
+            }
+            if (errors) {
+                document.getElementById('message').innerHTML = `<div class="error">${errors}</div>`;
+                return;
+            }
+            
+            document.getElementById('message').innerHTML = `<div style="color:${color};">
+                Welcome ${firstName}!<br>
+                Your birth year is ${birthYear}.<br>
+                Your mobile number is ${mobileNumber}.<br>
+                Your age is ${age} years old.<br>
+            </div>`;
+        });
+    </script>
+</body>
+</html>
